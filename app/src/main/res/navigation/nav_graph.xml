@@ -9,13 +9,34 @@
         android:name="com.example.watercheck.MainActivity"
         android:label="MainActivity">
         <action
-            android:id="@+id/action_mainActivity_to_profileActivity"
+            android:id="@+id/action_main_to_profile"
             app:destination="@id/profileActivity" />
     </activity>
 
     <activity
         android:id="@+id/profileActivity"
         android:name="com.example.watercheck.ProfileActivity"
-        android:label="ProfileActivity" />
+        android:label="ProfileActivity">
+        <action
+            android:id="@+id/action_profile_to_waterIntakeCalculation"
+            app:destination="@id/waterIntakeCalculationActivity" />
+        <action
+            android:id="@+id/action_profile_to_selectProfile"
+            app:destination="@id/selectProfileActivity" />
+    </activity>
+
+    <activity
+        android:id="@+id/selectProfileActivity"
+        android:name="com.example.watercheck.SelectProfileActivity"
+        android:label="SelectProfileActivity">
+        <action
+            android:id="@+id/action_selectProfile_to_waterIntakeCalculation"
+            app:destination="@id/waterIntakeCalculationActivity" />
+    </activity>
+
+    <activity
+        android:id="@+id/waterIntakeCalculationActivity"
+        android:name="com.example.watercheck.WaterIntakeCalculationActivity"
+        android:label="WaterIntakeCalculationActivity" />
 
 </navigation>

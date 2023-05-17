@@ -1,6 +1,8 @@
 package com.example.watercheck;
 
 import androidx.appcompat.app.AppCompatActivity;
+import android.content.Intent;
+import android.content.SharedPreferences;
 import android.os.Bundle;
 import android.view.View;
 import android.widget.Button;
@@ -56,11 +58,43 @@ public class ProfileActivity extends AppCompatActivity {
 
         // Perform any necessary validation or processing of the input data
 
-        // Save the profile or perform further actions
+        // Save the profile to SharedPreferences
+        int profileId = saveProfileToSharedPreferences(name, height, weight, age, gender);
+
+        // Redirect to the water intake calculation page with the profile ID
+        redirectToWaterIntakeCalculation(profileId);
+    }
+
+    private int saveProfileToSharedPreferences(String name, String height, String weight, String age, String gender) {
+        SharedPreferences sharedPreferences = getSharedPreferences("Profiles", MODE_PRIVATE);
+        int nextProfileId = sharedPreferences.getInt("NextProfileId", 1);
+        int profileId = nextProfileId;
+
+        // Save the profile data with the generated profile ID
+        SharedPreferences.Editor editor = sharedPreferences.edit();
+        editor.putString("Name_" + profileId, name);
+        editor.putString("Height_" + profileId, height);
+        editor.putString("Weight_" + profileId, weight);
+        editor.putString("Age_" + profileId, age);
+        editor.putString("Gender_" + profileId, gender);
+        editor.putInt("NextProfileId", nextProfileId + 1);
+        editor.apply();
+
+        return profileId;
+    }
+
+    private void redirectToWaterIntakeCalculation(int profileId) {
+        // Redirect to the water intake calculation page with the profile ID
+        Intent intent = new Intent(ProfileActivity.this, WaterIntakeCalculationActivity.class);
+        intent.putExtra("ProfileId", profileId);
+        startActivity(intent);
+        finish();
     }
 
     private void selectProfile() {
-        // Perform the necessary actions when selecting a profile
+        // Redirect to the select profile page
+        Intent intent = new Intent(ProfileActivity.this, SelectProfileActivity.class);
+        startActivity(intent);
     }
 
     private String getSelectedGender() {

@@ -1,0 +1,15 @@
+<!-- Replace the existing contents of the spinner_background.xml file with the following code -->
+
+<selector xmlns:android="http://schemas.android.com/apk/res/android">
+    <item>
+        <shape>
+            <solid android:color="#FFFFFF" /> <!-- Set the desired background color -->
+            <corners android:radius="8dp" /> <!-- Set the desired corner radius -->
+            <padding
+                android:left="16dp"
+                android:top="8dp"
+                android:right="16dp"
+                android:bottom="8dp" /> <!-- Set the desired padding -->
+        </shape>
+    </item>
+</selector>

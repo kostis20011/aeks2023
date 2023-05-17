@@ -1,0 +1,26 @@
+<!-- Replace the contents of the existing activity_select_profile.xml file with the following code -->
+
+<LinearLayout xmlns:android="http://schemas.android.com/apk/res/android"
+    xmlns:app="http://schemas.android.com/apk/res-auto"
+    xmlns:tools="http://schemas.android.com/tools"
+    android:layout_width="match_parent"
+    android:layout_height="match_parent"
+    android:gravity="center"
+    android:orientation="vertical"
+    tools:context=".SelectProfileActivity">
+
+    <Spinner
+        android:id="@+id/profileSpinner"
+        android:layout_width="wrap_content"
+        android:layout_height="wrap_content"
+        android:padding="16dp"
+        android:background="@drawable/spinner_background" />
+
+    <Button
+        android:id="@+id/selectProfileButton"
+        android:layout_width="wrap_content"
+        android:layout_height="wrap_content"
+        android:backgroundTint="@color/light_blue"
+        android:text="Select Profile" />
+
+</LinearLayout>
