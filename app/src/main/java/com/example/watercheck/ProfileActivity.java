@@ -56,7 +56,6 @@ public class ProfileActivity extends AppCompatActivity {
         String age = ageEditText.getText().toString();
         String gender = getSelectedGender();
 
-        // Perform any necessary validation or processing of the input data
 
         // Save the profile to SharedPreferences
         int profileId = saveProfileToSharedPreferences(name, height, weight, age, gender);
@@ -70,7 +69,7 @@ public class ProfileActivity extends AppCompatActivity {
         int nextProfileId = sharedPreferences.getInt("NextProfileId", 1);
         int profileId = nextProfileId;
 
-        // Save the profile data with the generated profile ID
+        // Save the profile data with the created profile ID
         SharedPreferences.Editor editor = sharedPreferences.edit();
         editor.putString("Name_" + profileId, name);
         editor.putString("Height_" + profileId, height);
@@ -86,7 +85,7 @@ public class ProfileActivity extends AppCompatActivity {
     private void redirectToWaterIntakeCalculation(int profileId) {
         // Redirect to the water intake calculation page with the profile ID
         Intent intent = new Intent(ProfileActivity.this, WaterIntakeCalculationActivity.class);
-        intent.putExtra("ProfileId", profileId);
+        intent.putExtra("profileId", profileId);
         startActivity(intent);
         finish();
     }
