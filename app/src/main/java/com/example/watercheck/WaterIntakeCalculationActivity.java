@@ -106,9 +106,9 @@ public class WaterIntakeCalculationActivity extends AppCompatActivity {
             double height = profile.getHeight();
             String gender = profile.getGender();
             if (gender.equalsIgnoreCase("male")) {
-                return 0.01*2*(baseIntakeMale + (weight * weightFactor) + (height * heightFactor) + ageFactor);
+                return 0.015*(baseIntakeMale + (weight * weightFactor) + (height * heightFactor) + ageFactor);
             } else if (gender.equalsIgnoreCase("female")) {
-                return 0.01*2*(baseIntakeFemale + (weight * weightFactor) + (height * heightFactor) + ageFactor);
+                return 0.015*(baseIntakeFemale + (weight * weightFactor) + (height * heightFactor) + ageFactor);
             }
         }
         return 0.0; // Default value if profile not found
