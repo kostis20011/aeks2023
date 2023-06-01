@@ -56,13 +56,20 @@ public class ProfileActivity extends AppCompatActivity {
         String age = ageEditText.getText().toString();
         String gender = getSelectedGender();
 
+        // Create a new Profile object
+        int profileId = ProfileDatabase.getInstance().getProfiles().size() + 1;
+        Profile profile = new Profile(profileId, gender, Integer.parseInt(age), Double.parseDouble(weight), Double.parseDouble(height));
+
+        // Add the profile to the database
+        ProfileDatabase.getInstance().addProfile(profile);
 
         // Save the profile to SharedPreferences
-        int profileId = saveProfileToSharedPreferences(name, height, weight, age, gender);
+        saveProfileToSharedPreferences(name, height, weight, age, gender);
 
         // Redirect to the water intake calculation page with the profile ID
         redirectToWaterIntakeCalculation(profileId);
     }
+
 
     private int saveProfileToSharedPreferences(String name, String height, String weight, String age, String gender) {
         SharedPreferences sharedPreferences = getSharedPreferences("Profiles", MODE_PRIVATE);

@@ -10,9 +10,6 @@ public class ProfileDatabase {
 
     private ProfileDatabase() {
         profiles = new ArrayList<>();
-        // Add profiles as needed
-        profiles.add(new Profile(1, "male", 25, 70.0, 170.0));
-        profiles.add(new Profile(2, "female", 35, 60.0, 160.0));
     }
 
     public static ProfileDatabase getInstance() {
@@ -24,6 +21,10 @@ public class ProfileDatabase {
 
     public List<Profile> getProfiles() {
         return profiles;
+    }
+
+    public void addProfile(Profile profile) {
+        profiles.add(profile);
     }
 
     public Profile getProfileById(int profileId) {

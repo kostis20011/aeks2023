@@ -43,9 +43,9 @@ public class WaterIntakeCalculationActivity extends AppCompatActivity {
             String gender = profile.getGender();
             double weight = profile.getWeight();
             if (gender.equalsIgnoreCase("male")) {
-                return weight * weightFactorMale; // Weight factor for men
+                return weight * 40.0; // Adjust the weight factor for men
             } else if (gender.equalsIgnoreCase("female")) {
-                return weight * weightFactorFemale; // Weight factor for women
+                return weight * 35.0; // Adjust the weight factor for women
             }
         }
         return 0.0; // Default value if profile not found
@@ -57,9 +57,9 @@ public class WaterIntakeCalculationActivity extends AppCompatActivity {
             String gender = profile.getGender();
             double height = profile.getHeight();
             if (gender.equalsIgnoreCase("male")) {
-                return height * heightFactorMale; // Height factor for men
+                return height * 0.6; // Adjust the height factor for men
             } else if (gender.equalsIgnoreCase("female")) {
-                return height * heightFactorFemale; // Height factor for women
+                return height * 0.5; // Adjust the height factor for women
             }
         }
         return 0.0; // Default value if profile not found
@@ -71,12 +71,25 @@ public class WaterIntakeCalculationActivity extends AppCompatActivity {
             int age = profile.getAge();
             if (age >= 14 && age <= 30) {
                 if (profile.getGender().equalsIgnoreCase("male")) {
-                    return ageFactorMale; // Age factor for ages 14-30 (male)
+                    return 0.0; // Age factor for ages 14-30 (male)
                 } else if (profile.getGender().equalsIgnoreCase("female")) {
-                    return ageFactorFemale; // Age factor for ages 14-30 (female)
+                    return -200.0; // Age factor for ages 14-30 (female)
                 }
             }
-            // Add other age ranges and their respective age factors as needed
+            if (age >= 31 && age <= 55) {
+                if (profile.getGender().equalsIgnoreCase("male")) {
+                    return -100.0;
+                } else if (profile.getGender().equalsIgnoreCase("female")) {
+                    return -300.0;
+                }
+            }
+            if (age>=56) {
+                if (profile.getGender().equalsIgnoreCase("male")) {
+                    return -300.0;
+                } else if (profile.getGender().equalsIgnoreCase("female")) {
+                    return -450.0;
+                }
+            }
         }
         return 0.0; // Default value if profile not found
     }
@@ -93,9 +106,9 @@ public class WaterIntakeCalculationActivity extends AppCompatActivity {
             double height = profile.getHeight();
             String gender = profile.getGender();
             if (gender.equalsIgnoreCase("male")) {
-                return baseIntakeMale + (weight * weightFactor) + (height * heightFactor) + (ageFactor * ageFactorMale);
+                return 0.01*2*(baseIntakeMale + (weight * weightFactor) + (height * heightFactor) + ageFactor);
             } else if (gender.equalsIgnoreCase("female")) {
-                return baseIntakeFemale + (weight * weightFactor) + (height * heightFactor) + (ageFactor * ageFactorFemale);
+                return 0.01*2*(baseIntakeFemale + (weight * weightFactor) + (height * heightFactor) + ageFactor);
             }
         }
         return 0.0; // Default value if profile not found

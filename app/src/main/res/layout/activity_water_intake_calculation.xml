@@ -15,7 +15,7 @@
         android:gravity="center"
         android:text="Water Intake: "
         android:padding="16dp" />
-
+    <!-- water_intake_calculation.xml -->
 
 
 </LinearLayout>
