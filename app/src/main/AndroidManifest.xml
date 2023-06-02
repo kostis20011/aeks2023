@@ -25,11 +25,7 @@
             android:label="Profile"
             android:parentActivityName=".MainActivity"
             android:exported="false"/> <!-- Set android:exported to false for non-launcher activities -->
-        <activity
-            android:name=".SelectProfileActivity"
-            android:label="Select Profile"
-            android:parentActivityName=".ProfileActivity"
-            android:exported="false"/> <!-- Set android:exported to false for non-launcher activities -->
+        <!-- Set android:exported to false for non-launcher activities -->
         <activity
             android:name=".WaterIntakeCalculationActivity"
             android:label="Water Intake Calculation"
