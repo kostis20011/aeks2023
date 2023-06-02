@@ -48,23 +48,19 @@ public class ProfileActivity extends AppCompatActivity {
         });
     }
 
-    private void createProfile() {
-        // Retrieve the values entered by the user
-        String name = nameEditText.getText().toString();
+    private void createProfile(Profile profile) {
+        MyDBHandler dbHandler = new MyDBHandler(this, null, null, 1);
+        String productName = nameEditText.getText().toString();
         String height = heightEditText.getText().toString();
-        String weight = weightEditText.getText().toString();
-        String age = ageEditText.getText().toString();
-        String gender = getSelectedGender();
-
-        // Create a new Profile object
-        int profileId = ProfileDatabase.getInstance().getProfiles().size() + 1;
-        Profile profile = new Profile(profileId, gender, Integer.parseInt(age), Double.parseDouble(weight), Double.parseDouble(height));
-
-        // Add the profile to the database
-        ProfileDatabase.getInstance().addProfile(profile);
-
-        // Save the profile to SharedPreferences
-        saveProfileToSharedPreferences(name, height, weight, age, gender);
+        if (!productName.equals("") &&  !height.equals("")){
+            Profile found = dbHandler.findprofile(productName);
+            if (found == null){
+                Product product = new Product(productName, Integer.parseInt(quantity));
+                dbHandler.addProduct(product);
+                productBox.setText("");
+                quantityBox.setText("");
+            }
+        }
 
         // Redirect to the water intake calculation page with the profile ID
         redirectToWaterIntakeCalculation(profileId);

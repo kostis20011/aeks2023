@@ -48,7 +48,7 @@ import android.util.Log;
             onCreate(db);
         }
 
-        //Μέθοδος για προσθήκη ενός προϊόντος στη ΒΔ
+        //Μέθοδος για προσθήκη ενός προφιλ στη ΒΔ
         public void addProduct(Profile profile) {
             ContentValues values = new ContentValues();
             values.put(COLUMN_NAME, profile.getName());
@@ -59,6 +59,29 @@ import android.util.Log;
             SQLiteDatabase db = this.getWritableDatabase();
             db.insert(TABLE_PROFILE, null, values);
             db.close();
+        }
+
+        //Μέθοδος για εύρεση προφιλ βάσει του ονοματος
+        public Profile findProfile(String name) {
+            String query = "SELECT * FROM " + TABLE_PROFILE + " WHERE " +
+                    COLUMN_NAME + " = '" + name + "'";
+            SQLiteDatabase db = this.getReadableDatabase();
+            Cursor cursor = db.rawQuery(query, null);
+            Profile profile = new Profile();
+            if (cursor.moveToFirst()) {
+                cursor.moveToFirst();
+                profile.setId(Integer.parseInt(cursor.getString(0)));
+                profile.setName(cursor.getString(1));
+                profile.setGender(cursor.getString(2));
+                profile.setAge(Integer.parseInt(cursor.getString(3)));
+                profile.setWeight(Long.parseLong(cursor.getString(4)));
+                profile.setHeight(Long.parseLong(cursor.getString(5)));
+                cursor.close();
+            } else {
+                profile = null;
+            }
+            db.close();
+            return profile;
         }
 
     }
