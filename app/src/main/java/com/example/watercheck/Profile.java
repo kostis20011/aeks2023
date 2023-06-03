@@ -2,68 +2,76 @@ package com.example.watercheck;
 
 // Profile.java
 public class Profile {
-    private int id;
-    private String name;
-    private String gender;
-    private int age;
-    private double weight;
-    private double height;
+    private int _id;
+    private String _name;
+    private String _gender;
+    private int _age;
+    private double _weight;
+    private double _height;
 
     public Profile() {
     }
 
-    public Profile(int id, String name, String gender, int age, double weight, double height) {
-        this.id = id;
-        this.name = name;
-        this.gender = gender;
-        this.age = age;
-        this.weight = weight;
-        this.height = height;
+    public Profile(int _id, String _name, String _gender, int _age, double _weight, double _height) {
+        this._id = _id;
+        this._name = _name;
+        this._gender = _gender;
+        this._age = _age;
+        this._weight = _weight;
+        this._height = _height;
+    }
+
+    public Profile(String _name, String _gender, int _age, double _weight, double _height) {
+        this._name = _name;
+        this._gender = _gender;
+        this._age = _age;
+        this._weight = _weight;
+        this._height = _height;
     }
 
     public int getId() {
-        return id;
+        return _id;
     }
 
     public void setId(int id) {
-        this.id=id;
+        this._id=id;
     }
 
     public String getName() {
-        return name;
+        return _name;
     }
 
     public void setName(String name) {
-        this.name=name;
+        this._name=name;
     }
 
     public String getGender() {
-        return gender;
+        return _gender;
     }
 
     public void setGender(String gender) {
-        this.gender=gender;
+        this._gender=gender;
     }
 
     public int getAge() {
-        return age;
+        return _age;
     }
 
-    public void setAge(int age) { this.age=age; }
+    public void setAge(int age) { this._age=age; }
 
     public double getWeight() {
-        return weight;
+        return _weight;
     }
 
     public void setWeight(double weight) {
-        this.weight=weight;
+        this._weight=weight;
     }
 
     public double getHeight() {
-        return height;
+        return _height;
     }
 
     public void setHeight(double height) {
-        this.height=height;
+        this._height=height;
     }
 }

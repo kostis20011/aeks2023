@@ -13,6 +13,7 @@ import android.widget.RadioGroup;
 public class ProfileActivity extends AppCompatActivity {
 
     private EditText nameEditText;
+    private String genderEditText;
     private EditText heightEditText;
     private EditText weightEditText;
     private EditText ageEditText;
@@ -24,8 +25,8 @@ public class ProfileActivity extends AppCompatActivity {
     protected void onCreate(Bundle savedInstanceState) {
         super.onCreate(savedInstanceState);
         setContentView(R.layout.fragment_first);
-
         nameEditText = findViewById(R.id.nameEditText);
+        genderEditText = getSelectedGender();
         heightEditText = findViewById(R.id.heightEditText);
         weightEditText = findViewById(R.id.weightEditText);
         ageEditText = findViewById(R.id.ageEditText);
@@ -35,39 +36,45 @@ public class ProfileActivity extends AppCompatActivity {
 
         createProfileButton.setOnClickListener(new View.OnClickListener() {
             @Override
-            public void onClick(View v) {
+            public void onClick(View vew) {
                 createProfile();
             }
         });
 
         selectProfileButton.setOnClickListener(new View.OnClickListener() {
             @Override
-            public void onClick(View v) {
+           public void onClick(View v) {
                 selectProfile();
             }
         });
     }
 
-    private void createProfile(Profile profile) {
+    private void createProfile() {
         MyDBHandler dbHandler = new MyDBHandler(this, null, null, 1);
-        String productName = nameEditText.getText().toString();
+        String Name = nameEditText.getText().toString();
+        String gender = genderEditText;
+        String age = ageEditText.getText().toString();
+        String weight = weightEditText.getText().toString();
         String height = heightEditText.getText().toString();
-        if (!productName.equals("") &&  !height.equals("")){
-            Profile found = dbHandler.findprofile(productName);
+        if (!Name.equals("") &&  !height.equals("")){
+            Profile found = dbHandler.findProfile(Name);
             if (found == null){
-                Product product = new Product(productName, Integer.parseInt(quantity));
+                Profile product = new Profile(Name, gender, Integer.parseInt(age), Integer.parseInt(weight), Integer.parseInt(height));
                 dbHandler.addProduct(product);
-                productBox.setText("");
-                quantityBox.setText("");
+                nameEditText.setText("");
+                genderEditText=("");
+                ageEditText.setText("");
+                weightEditText.setText("");
+                heightEditText.setText("");
             }
         }
 
         // Redirect to the water intake calculation page with the profile ID
-        redirectToWaterIntakeCalculation(profileId);
+        redirectToWaterIntakeCalculation(saveProfileToSharedPreferences(nameEditText.toString(), genderEditText.toString(), ageEditText.toString(), weightEditText.toString(), heightEditText.toString()));
     }
 
 
-    private int saveProfileToSharedPreferences(String name, String height, String weight, String age, String gender) {
+    private int saveProfileToSharedPreferences(String name, String gender, String age, String weight, String height) {
         SharedPreferences sharedPreferences = getSharedPreferences("Profiles", MODE_PRIVATE);
         int nextProfileId = sharedPreferences.getInt("NextProfileId", 1);
         int profileId = nextProfileId;
@@ -93,11 +100,11 @@ public class ProfileActivity extends AppCompatActivity {
         finish();
     }
 
-    private void selectProfile() {
+   // private void selectProfile() {
         // Redirect to the select profile page
-        Intent intent = new Intent(ProfileActivity.this, SelectProfileActivity.class);
-        startActivity(intent);
-    }
+   //     Intent intent = new Intent(ProfileActivity.this, SelectProfileActivity.class);
+    //    startActivity(intent);
+   // }
 
     private String getSelectedGender() {
         int selectedId = genderRadioGroup.getCheckedRadioButtonId();
@@ -107,4 +114,7 @@ public class ProfileActivity extends AppCompatActivity {
         }
         return null;
     }
+
 }
+
+
