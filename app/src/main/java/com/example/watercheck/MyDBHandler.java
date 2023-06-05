@@ -35,8 +35,8 @@ import android.util.Log;
                     COLUMN_NAME + " TEXT," +
                     COLUMN_GENDER + " TEXT," +
                     COLUMN_AGE + " INTEGER," +
-                    COLUMN_WEIGHT + " DOUBLE," +
-                    COLUMN_HEIGHT + "DOUBLE" +")" ;
+                    COLUMN_WEIGHT + " REAL," +
+                    COLUMN_HEIGHT + " REAL" + ")";
             db.execSQL(CREATE_PROFILE_TABLE);
         }
 
@@ -49,7 +49,7 @@ import android.util.Log;
         }
 
         //Μέθοδος για προσθήκη ενός προφιλ στη ΒΔ
-        public void addProduct(Profile profile) {
+        public void addProfile(Profile profile) {
             ContentValues values = new ContentValues();
             values.put(COLUMN_NAME, profile.getName());
             values.put(COLUMN_GENDER, profile.getGender());
@@ -74,8 +74,8 @@ import android.util.Log;
                 profile.setName(cursor.getString(1));
                 profile.setGender(cursor.getString(2));
                 profile.setAge(Integer.parseInt(cursor.getString(3)));
-                profile.setWeight(Long.parseLong(cursor.getString(4)));
-                profile.setHeight(Long.parseLong(cursor.getString(5)));
+                profile.setWeight(Double.parseDouble(cursor.getString(4)));
+                profile.setHeight(Double.parseDouble(cursor.getString(5)));
                 cursor.close();
             } else {
                 profile = null;

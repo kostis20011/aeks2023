@@ -13,7 +13,6 @@ import android.widget.RadioGroup;
 public class ProfileActivity extends AppCompatActivity {
 
     private EditText nameEditText;
-    private String genderEditText;
     private EditText heightEditText;
     private EditText weightEditText;
     private EditText ageEditText;
@@ -26,7 +25,6 @@ public class ProfileActivity extends AppCompatActivity {
         super.onCreate(savedInstanceState);
         setContentView(R.layout.fragment_first);
         nameEditText = findViewById(R.id.nameEditText);
-        genderEditText = getSelectedGender();
         heightEditText = findViewById(R.id.heightEditText);
         weightEditText = findViewById(R.id.weightEditText);
         ageEditText = findViewById(R.id.ageEditText);
@@ -41,56 +39,37 @@ public class ProfileActivity extends AppCompatActivity {
             }
         });
 
-        selectProfileButton.setOnClickListener(new View.OnClickListener() {
-            @Override
-           public void onClick(View v) {
-                selectProfile();
-            }
-        });
+      //  selectProfileButton.setOnClickListener(new View.OnClickListener() {
+      //      @Override
+        //   public void onClick(View v) {
+          //      selectProfile();
+           // }
+       // });
     }
 
     private void createProfile() {
         MyDBHandler dbHandler = new MyDBHandler(this, null, null, 1);
         String Name = nameEditText.getText().toString();
-        String gender = genderEditText;
+        String gender = getSelectedGender();
         String age = ageEditText.getText().toString();
         String weight = weightEditText.getText().toString();
         String height = heightEditText.getText().toString();
-        if (!Name.equals("") &&  !height.equals("")){
+        if (!Name.equals("") &&  !gender.equals("") &&  !age.equals("") &&  !weight.equals("") &&  !height.equals("")){
             Profile found = dbHandler.findProfile(Name);
             if (found == null){
-                Profile product = new Profile(Name, gender, Integer.parseInt(age), Integer.parseInt(weight), Integer.parseInt(height));
-                dbHandler.addProduct(product);
+                Profile profile = new Profile(Name, gender, Integer.parseInt(age), Integer.parseInt(weight), Integer.parseInt(height));
+                dbHandler.addProfile(profile);
                 nameEditText.setText("");
-                genderEditText=("");
                 ageEditText.setText("");
                 weightEditText.setText("");
                 heightEditText.setText("");
             }
+            // Redirect to the water intake calculation page with the profile ID
+            Profile profile = dbHandler.findProfile(Name);
+            redirectToWaterIntakeCalculation(profile.getId());
         }
-
-        // Redirect to the water intake calculation page with the profile ID
-        redirectToWaterIntakeCalculation(saveProfileToSharedPreferences(nameEditText.toString(), genderEditText.toString(), ageEditText.toString(), weightEditText.toString(), heightEditText.toString()));
     }
 
-
-    private int saveProfileToSharedPreferences(String name, String gender, String age, String weight, String height) {
-        SharedPreferences sharedPreferences = getSharedPreferences("Profiles", MODE_PRIVATE);
-        int nextProfileId = sharedPreferences.getInt("NextProfileId", 1);
-        int profileId = nextProfileId;
-
-        // Save the profile data with the created profile ID
-        SharedPreferences.Editor editor = sharedPreferences.edit();
-        editor.putString("Name_" + profileId, name);
-        editor.putString("Height_" + profileId, height);
-        editor.putString("Weight_" + profileId, weight);
-        editor.putString("Age_" + profileId, age);
-        editor.putString("Gender_" + profileId, gender);
-        editor.putInt("NextProfileId", nextProfileId + 1);
-        editor.apply();
-
-        return profileId;
-    }
 
     private void redirectToWaterIntakeCalculation(int profileId) {
         // Redirect to the water intake calculation page with the profile ID

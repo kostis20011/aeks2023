@@ -2,11 +2,19 @@ package com.example.watercheck;
 
 import androidx.appcompat.app.AppCompatActivity;
 import android.os.Bundle;
+import android.view.View;
 import android.widget.TextView;
+
+import java.text.BreakIterator;
 
 public class WaterIntakeCalculationActivity extends AppCompatActivity {
 
     private TextView waterIntakeTextView;
+    private String nameView;
+    private String genderView;
+    private Integer ageView;
+    private Double weightView;
+    private Double heightView;
 
     private double weightFactorMale = 40.0;
     private double weightFactorFemale = 35.0;
@@ -38,7 +46,8 @@ public class WaterIntakeCalculationActivity extends AppCompatActivity {
     }
 
     private double calculateWeightFactor(int profileId) {
-        Profile profile = ProfileDatabase.getInstance().getProfileById(profileId);
+        MyDBHandler dbHandler = new MyDBHandler(this, null, null, 1);
+        Profile profile = dbHandler.findProfile(String.valueOf(profileId));
         if (profile != null) {
             String gender = profile.getGender();
             double weight = profile.getWeight();
@@ -52,7 +61,8 @@ public class WaterIntakeCalculationActivity extends AppCompatActivity {
     }
 
     private double calculateHeightFactor(int profileId) {
-        Profile profile = ProfileDatabase.getInstance().getProfileById(profileId);
+        MyDBHandler dbHandler = new MyDBHandler(this, null, null, 1);
+        Profile profile = dbHandler.findProfile(String.valueOf(profileId));
         if (profile != null) {
             String gender = profile.getGender();
             double height = profile.getHeight();
@@ -66,7 +76,8 @@ public class WaterIntakeCalculationActivity extends AppCompatActivity {
     }
 
     private double calculateAgeFactor(int profileId) {
-        Profile profile = ProfileDatabase.getInstance().getProfileById(profileId);
+        MyDBHandler dbHandler = new MyDBHandler(this, null, null, 1);
+        Profile profile = dbHandler.findProfile(String.valueOf(profileId));
         if (profile != null) {
             int age = profile.getAge();
             if (age >= 14 && age <= 30) {
@@ -100,7 +111,8 @@ public class WaterIntakeCalculationActivity extends AppCompatActivity {
 
         // Retrieve the profileId from the previous activity or from user selection
         int profileId = getIntent().getIntExtra("profileId", 0);
-        Profile profile = ProfileDatabase.getInstance().getProfileById(profileId);
+        MyDBHandler dbHandler = new MyDBHandler(this, null, null, 1);
+        Profile profile = dbHandler.findProfile(String.valueOf(profileId));
         if (profile != null) {
             double weight = profile.getWeight();
             double height = profile.getHeight();
