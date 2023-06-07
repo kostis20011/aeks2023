@@ -16,14 +16,14 @@
         android:id="@+id/heightEditText"
         android:layout_width="200dp"
         android:layout_height="60dp"
-        android:hint="Height"
+        android:hint="Height (in cm)"
         android:gravity="center" />
 
     <EditText
         android:id="@+id/weightEditText"
         android:layout_width="200dp"
         android:layout_height="60dp"
-        android:hint="Weight"
+        android:hint="Weight (in kg)"
         android:gravity="center" />
 
     <EditText

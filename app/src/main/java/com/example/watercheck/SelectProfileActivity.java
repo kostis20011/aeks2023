@@ -28,12 +28,13 @@ public class SelectProfileActivity extends AppCompatActivity {
         profileSpinner = findViewById(R.id.profileSpinner);
         selectProfileButton = findViewById(R.id.selectProfileButton);
 
-        List<Profile> profiles = ProfileDatabase.getInstance().getProfiles();
+        MyDBHandler dbHandler = new MyDBHandler(this);
+        List<Profile> profiles = dbHandler.getProfiles();
 
         // Create a list of profile names displaying ID and Age in spinner
         List<String> profileNames = new ArrayList<>();
         for (Profile profile : profiles) {
-            String profileName = "ID: " + profile.getId() + " - Age: " + profile.getAge();
+            String profileName = "Name: " + profile.getName() + " - Age: " + profile.getAge();
             profileNames.add(profileName);
         }
 
@@ -73,7 +74,8 @@ public class SelectProfileActivity extends AppCompatActivity {
 
     private void navigateToWaterIntakeCalculation() {
         Intent intent = new Intent(this, WaterIntakeCalculationActivity.class);
-        intent.putExtra("ProfileId", selectedProfileId);
+        intent.putExtra("profileId", selectedProfileId); // Change the key to lowercase
         startActivity(intent);
     }
+
 }

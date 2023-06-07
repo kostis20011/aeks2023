@@ -1,38 +1,51 @@
 package com.example.watercheck;
 
-// Profile.java
 public class Profile {
     private int id;
-    private String gender;
-    private int age;
-    private double weight;
+    private String name;
     private double height;
+    private double weight;
+    private int age;
+    private String gender;
 
-    public Profile(int id, String gender, int age, double weight, double height) {
-        this.id = id;
-        this.gender = gender;
-        this.age = age;
-        this.weight = weight;
+    public Profile(String name, double height, double weight, int age, String gender) {
+        this.name = name;
         this.height = height;
+        this.weight = weight;
+        this.age = age;
+        this.gender = gender;
+    }
+
+    public Profile(int id, String name, double height, double weight, int age, String gender) {
+        this.id = id;
+        this.name = name;
+        this.height = height;
+        this.weight = weight;
+        this.age = age;
+        this.gender = gender;
     }
 
     public int getId() {
         return id;
     }
 
-    public String getGender() {
-        return gender;
+    public String getName() {
+        return name;
     }
 
-    public int getAge() {
-        return age;
+    public double getHeight() {
+        return height;
     }
 
     public double getWeight() {
         return weight;
     }
 
-    public double getHeight() {
-        return height;
+    public int getAge() {
+        return age;
+    }
+
+    public String getGender() {
+        return gender;
     }
 }

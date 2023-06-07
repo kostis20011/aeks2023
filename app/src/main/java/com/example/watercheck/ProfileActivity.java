@@ -1,14 +1,15 @@
 package com.example.watercheck;
 
 import androidx.appcompat.app.AppCompatActivity;
+
 import android.content.Intent;
-import android.content.SharedPreferences;
 import android.os.Bundle;
 import android.view.View;
 import android.widget.Button;
 import android.widget.EditText;
 import android.widget.RadioButton;
 import android.widget.RadioGroup;
+import android.widget.Toast;
 
 public class ProfileActivity extends AppCompatActivity {
 
@@ -19,11 +20,14 @@ public class ProfileActivity extends AppCompatActivity {
     private RadioGroup genderRadioGroup;
     private Button createProfileButton;
     private Button selectProfileButton;
+    private MyDBHandler dbHandler;
 
     @Override
     protected void onCreate(Bundle savedInstanceState) {
         super.onCreate(savedInstanceState);
         setContentView(R.layout.fragment_first);
+
+        dbHandler = MyDBHandler.getInstance(this); // Retrieve the instance of MyDBHandler
 
         nameEditText = findViewById(R.id.nameEditText);
         heightEditText = findViewById(R.id.heightEditText);
@@ -49,44 +53,37 @@ public class ProfileActivity extends AppCompatActivity {
     }
 
     private void createProfile() {
-        // Retrieve the values entered by the user
-        String name = nameEditText.getText().toString();
-        String height = heightEditText.getText().toString();
-        String weight = weightEditText.getText().toString();
-        String age = ageEditText.getText().toString();
+        String name = nameEditText.getText().toString().trim();
+        String heightStr = heightEditText.getText().toString().trim();
+        String weightStr = weightEditText.getText().toString().trim();
+        String ageStr = ageEditText.getText().toString().trim();
         String gender = getSelectedGender();
 
-        // Create a new Profile object
-        int profileId = ProfileDatabase.getInstance().getProfiles().size() + 1;
-        Profile profile = new Profile(profileId, gender, Integer.parseInt(age), Double.parseDouble(weight), Double.parseDouble(height));
+        if (name.isEmpty() || heightStr.isEmpty() || weightStr.isEmpty() || ageStr.isEmpty() || gender == null) {
+            // Check if any field is empty or gender is not selected
+            Toast.makeText(this, "Please fill in all fields and select gender", Toast.LENGTH_SHORT).show();
+            return;
+        }
 
-        // Add the profile to the database
-        ProfileDatabase.getInstance().addProfile(profile);
+        double height = Double.parseDouble(heightStr);
+        double weight = Double.parseDouble(weightStr);
+        int age = Integer.parseInt(ageStr);
 
-        // Save the profile to SharedPreferences
-        saveProfileToSharedPreferences(name, height, weight, age, gender);
+        // Save the profile to the database using MyDBHandler
+        Profile profile = new Profile(name, height, weight, age, gender);
+        int profileId = dbHandler.addProfile(profile);
 
-        // Redirect to the water intake calculation page with the profile ID
-        redirectToWaterIntakeCalculation(profileId);
+        if (profileId != -1) {
+            redirectToWaterIntakeCalculation(profileId);
+        } else {
+            Toast.makeText(this, "Failed to save profile", Toast.LENGTH_SHORT).show();
+        }
     }
 
-
-    private int saveProfileToSharedPreferences(String name, String height, String weight, String age, String gender) {
-        SharedPreferences sharedPreferences = getSharedPreferences("Profiles", MODE_PRIVATE);
-        int nextProfileId = sharedPreferences.getInt("NextProfileId", 1);
-        int profileId = nextProfileId;
-
-        // Save the profile data with the created profile ID
-        SharedPreferences.Editor editor = sharedPreferences.edit();
-        editor.putString("Name_" + profileId, name);
-        editor.putString("Height_" + profileId, height);
-        editor.putString("Weight_" + profileId, weight);
-        editor.putString("Age_" + profileId, age);
-        editor.putString("Gender_" + profileId, gender);
-        editor.putInt("NextProfileId", nextProfileId + 1);
-        editor.apply();
-
-        return profileId;
+    private void selectProfile() {
+        // Redirect to the select profile page
+        Intent intent = new Intent(ProfileActivity.this, SelectProfileActivity.class);
+        startActivity(intent);
     }
 
     private void redirectToWaterIntakeCalculation(int profileId) {
@@ -97,12 +94,6 @@ public class ProfileActivity extends AppCompatActivity {
         finish();
     }
 
-    private void selectProfile() {
-        // Redirect to the select profile page
-        Intent intent = new Intent(ProfileActivity.this, SelectProfileActivity.class);
-        startActivity(intent);
-    }
-
     private String getSelectedGender() {
         int selectedId = genderRadioGroup.getCheckedRadioButtonId();
         RadioButton selectedRadioButton = findViewById(selectedId);
@@ -110,5 +101,11 @@ public class ProfileActivity extends AppCompatActivity {
             return selectedRadioButton.getText().toString();
         }
         return null;
+    }
+
+    private void redirectToWaterCalculation() {
+        // Redirect to the water calculation page
+        Intent intent = new Intent(ProfileActivity.this, WaterIntakeCalculationActivity.class);
+        startActivity(intent);
     }
 }

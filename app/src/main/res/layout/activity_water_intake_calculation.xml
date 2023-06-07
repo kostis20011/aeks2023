@@ -16,6 +16,13 @@
         android:text="Water Intake: "
         android:padding="16dp" />
     <!-- water_intake_calculation.xml -->
+    <Button
+        android:id="@+id/profileButton"
+        android:layout_width="wrap_content"
+        android:layout_height="wrap_content"
+        android:backgroundTint="@color/light_blue"
+        android:text="Back"
+        android:layout_marginTop="16dp"/>
 
 
 </LinearLayout>

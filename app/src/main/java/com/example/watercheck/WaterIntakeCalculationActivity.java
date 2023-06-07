@@ -3,6 +3,10 @@ package com.example.watercheck;
 import androidx.appcompat.app.AppCompatActivity;
 import android.os.Bundle;
 import android.widget.TextView;
+import android.view.View;
+import android.widget.Button;
+import android.content.Intent;
+
 
 public class WaterIntakeCalculationActivity extends AppCompatActivity {
 
@@ -12,8 +16,8 @@ public class WaterIntakeCalculationActivity extends AppCompatActivity {
     private double weightFactorFemale = 35.0;
     private double heightFactorMale = 0.6;
     private double heightFactorFemale = 0.5;
-    private double ageFactorMale = 0.0; // Add the missing variable
-    private double ageFactorFemale = -100.0; // Add the missing variable
+    private double ageFactorMale = 0.0;
+    private double ageFactorFemale = -100.0;
 
     @Override
     protected void onCreate(Bundle savedInstanceState) {
@@ -26,54 +30,66 @@ public class WaterIntakeCalculationActivity extends AppCompatActivity {
         waterIntakeTextView = findViewById(R.id.waterIntakeTextView);
 
         // Retrieve the factors from the profile or calculate them as needed
-        double weightFactor = calculateWeightFactor(profileId); // Calculate weight factor based on gender
-        double heightFactor = calculateHeightFactor(profileId); // Calculate height factor based on gender
-        double ageFactor = calculateAgeFactor(profileId); // Calculate age factor based on age range
+        double weightFactor = calculateWeightFactor(profileId);
+        double heightFactor = calculateHeightFactor(profileId);
+        double ageFactor = calculateAgeFactor(profileId);
 
         // Calculate the water intake
         double waterIntake = calculateWaterIntake(weightFactor, heightFactor, ageFactor);
 
         // Set the water intake value to the waterIntakeTextView
-        waterIntakeTextView.setText("Water Intake: " + waterIntake + " ml");
+        waterIntakeTextView.setText("Water Intake: " + String.format("%.1f", waterIntake) + " ml");
+
+        Button profileButton = findViewById(R.id.profileButton);
+        profileButton.setOnClickListener(new View.OnClickListener() {
+            @Override
+            public void onClick(View v) {
+                navigateToProfileActivity();
+            }
+        });
+
     }
 
     private double calculateWeightFactor(int profileId) {
-        Profile profile = ProfileDatabase.getInstance().getProfileById(profileId);
+        MyDBHandler dbHandler = MyDBHandler.getInstance(getApplicationContext());
+        Profile profile = dbHandler.getProfileById(profileId);
         if (profile != null) {
             String gender = profile.getGender();
             double weight = profile.getWeight();
             if (gender.equalsIgnoreCase("male")) {
-                return weight * 40.0; // Adjust the weight factor for men
+                return weight * weightFactorMale;
             } else if (gender.equalsIgnoreCase("female")) {
-                return weight * 35.0; // Adjust the weight factor for women
+                return weight * weightFactorFemale;
             }
         }
         return 0.0; // Default value if profile not found
     }
 
     private double calculateHeightFactor(int profileId) {
-        Profile profile = ProfileDatabase.getInstance().getProfileById(profileId);
+        MyDBHandler dbHandler = MyDBHandler.getInstance(getApplicationContext());
+        Profile profile = dbHandler.getProfileById(profileId);
         if (profile != null) {
             String gender = profile.getGender();
             double height = profile.getHeight();
             if (gender.equalsIgnoreCase("male")) {
-                return height * 0.6; // Adjust the height factor for men
+                return height * heightFactorMale;
             } else if (gender.equalsIgnoreCase("female")) {
-                return height * 0.5; // Adjust the height factor for women
+                return height * heightFactorFemale;
             }
         }
         return 0.0; // Default value if profile not found
     }
 
     private double calculateAgeFactor(int profileId) {
-        Profile profile = ProfileDatabase.getInstance().getProfileById(profileId);
+        MyDBHandler dbHandler = MyDBHandler.getInstance(getApplicationContext());
+        Profile profile = dbHandler.getProfileById(profileId);
         if (profile != null) {
             int age = profile.getAge();
             if (age >= 14 && age <= 30) {
                 if (profile.getGender().equalsIgnoreCase("male")) {
-                    return 0.0; // Age factor for ages 14-30 (male)
+                    return ageFactorMale;
                 } else if (profile.getGender().equalsIgnoreCase("female")) {
-                    return -200.0; // Age factor for ages 14-30 (female)
+                    return ageFactorFemale;
                 }
             }
             if (age >= 31 && age <= 55) {
@@ -83,7 +99,7 @@ public class WaterIntakeCalculationActivity extends AppCompatActivity {
                     return -300.0;
                 }
             }
-            if (age>=56) {
+            if (age >= 56) {
                 if (profile.getGender().equalsIgnoreCase("male")) {
                     return -300.0;
                 } else if (profile.getGender().equalsIgnoreCase("female")) {
@@ -100,17 +116,25 @@ public class WaterIntakeCalculationActivity extends AppCompatActivity {
 
         // Retrieve the profileId from the previous activity or from user selection
         int profileId = getIntent().getIntExtra("profileId", 0);
-        Profile profile = ProfileDatabase.getInstance().getProfileById(profileId);
+        Profile profile = MyDBHandler.getInstance(getApplicationContext()).getProfileById(profileId);
         if (profile != null) {
             double weight = profile.getWeight();
             double height = profile.getHeight();
             String gender = profile.getGender();
+
             if (gender.equalsIgnoreCase("male")) {
-                return 0.015*(baseIntakeMale + (weight * weightFactor) + (height * heightFactor) + ageFactor);
+                return 0.015 * (baseIntakeMale + (weight * weightFactor) + (height * heightFactor) + ageFactor);
             } else if (gender.equalsIgnoreCase("female")) {
-                return 0.015*(baseIntakeFemale + (weight * weightFactor) + (height * heightFactor) + ageFactor);
+                return 0.015 * (baseIntakeFemale + (weight * weightFactor) + (height * heightFactor) + ageFactor);
             }
         }
+
         return 0.0; // Default value if profile not found
     }
+    private void navigateToProfileActivity() {
+        Intent intent = new Intent(WaterIntakeCalculationActivity.this, ProfileActivity.class);
+        startActivity(intent);
+    }
+
+
 }
