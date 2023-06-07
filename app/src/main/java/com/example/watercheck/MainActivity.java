@@ -10,7 +10,7 @@ import com.example.watercheck.databinding.ActivityMainBinding;
 
 public class MainActivity extends AppCompatActivity {
 
-    private ActivityMainBinding binding;
+    private ActivityMainBinding binding; //eliminates the need to use findViewById()
 
     @Override
     protected void onCreate(Bundle savedInstanceState) {

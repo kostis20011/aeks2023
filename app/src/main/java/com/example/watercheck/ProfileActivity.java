@@ -102,10 +102,4 @@ public class ProfileActivity extends AppCompatActivity {
         }
         return null;
     }
-
-    private void redirectToWaterCalculation() {
-        // Redirect to the water calculation page
-        Intent intent = new Intent(ProfileActivity.this, WaterIntakeCalculationActivity.class);
-        startActivity(intent);
-    }
 }

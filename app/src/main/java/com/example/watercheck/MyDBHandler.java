@@ -22,12 +22,13 @@ public class MyDBHandler extends SQLiteOpenHelper {
 
     private static MyDBHandler instance;
 
-    public MyDBHandler(Context context) {
+    public MyDBHandler(Context context) //MyDBHandler constructor
+    {
         super(context, DATABASE_NAME, null, DATABASE_VERSION);
     }
 
     public static synchronized MyDBHandler getInstance(Context context) {
-        if (instance == null) {
+        if (instance == null) { //no instance of MyDBHandler has been created yet
             instance = new MyDBHandler(context.getApplicationContext());
         }
         return instance;
@@ -35,7 +36,7 @@ public class MyDBHandler extends SQLiteOpenHelper {
 
     @Override
     public void onCreate(SQLiteDatabase db) {
-        String CREATE_PROFILES_TABLE = "CREATE TABLE " + TABLE_PROFILES +
+        String CREATE_PROFILES_TABLE = "CREATE TABLE " + TABLE_PROFILES +   //creating the table
                 "(" +
                 COLUMN_ID + " INTEGER PRIMARY KEY AUTOINCREMENT," +
                 COLUMN_NAME + " TEXT," +
@@ -44,18 +45,18 @@ public class MyDBHandler extends SQLiteOpenHelper {
                 COLUMN_AGE + " INTEGER," +
                 COLUMN_GENDER + " TEXT" +
                 ")";
-        db.execSQL(CREATE_PROFILES_TABLE);
+        db.execSQL(CREATE_PROFILES_TABLE); //creates the table
     }
 
     @Override
     public void onUpgrade(SQLiteDatabase db, int oldVersion, int newVersion) {
         db.execSQL("DROP TABLE IF EXISTS " + TABLE_PROFILES);
-        onCreate(db);
+        onCreate(db); //create new "profiles" table with updated schema
     }
 
-    public int addProfile(Profile profile) {
+    public int addProfile(Profile profile) { //insert new profile in "profiles" table
         SQLiteDatabase db = getWritableDatabase();
-        ContentValues values = new ContentValues();
+        ContentValues values = new ContentValues(); //store column-value pairs
         values.put(COLUMN_NAME, profile.getName());
         values.put(COLUMN_HEIGHT, profile.getHeight());
         values.put(COLUMN_WEIGHT, profile.getWeight());
@@ -85,7 +86,7 @@ public class MyDBHandler extends SQLiteOpenHelper {
                 double weight = cursor.getDouble(weightIndex);
                 int age = cursor.getInt(ageIndex);
                 String gender = cursor.getString(genderIndex);
-                Profile profile = new Profile(id, name, height, weight, age, gender);
+                Profile profile = new Profile(id, name, height, weight, age, gender);//creates a new Profile object using the retrieved values from the cursor
                 profileList.add(profile);
             } while (cursor.moveToNext());
         }
