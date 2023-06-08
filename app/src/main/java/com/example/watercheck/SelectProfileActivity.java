@@ -18,6 +18,7 @@ public class SelectProfileActivity extends AppCompatActivity {
 
     private Spinner profileSpinner;
     private Button selectProfileButton;
+    private Button deleteProfileButton;
     private int selectedProfileId = -1;
 
     @Override
@@ -27,6 +28,7 @@ public class SelectProfileActivity extends AppCompatActivity {
 
         profileSpinner = findViewById(R.id.profileSpinner);
         selectProfileButton = findViewById(R.id.selectProfileButton);
+        deleteProfileButton = findViewById(R.id.deleteProfileButton);
 
         MyDBHandler dbHandler = new MyDBHandler(this);
         List<Profile> profiles = dbHandler.getProfiles();
@@ -70,11 +72,28 @@ public class SelectProfileActivity extends AppCompatActivity {
                 }
             }
         });
+        deleteProfileButton.setOnClickListener(new View.OnClickListener() {
+            @Override
+            public void onClick(View v) {
+                if (selectedProfileId != -1) {
+                    dbHandler.deleteProduct(selectedProfileId);
+                    navigateToProfileActivity();
+                } else {
+                    // Show a message to the user to select a profile
+                    Toast.makeText(SelectProfileActivity.this, "Please select a profile", Toast.LENGTH_SHORT).show();
+                }
+            }
+        });
     }
 
     private void navigateToWaterIntakeCalculation() {
         Intent intent = new Intent(this, WaterIntakeCalculationActivity.class);
         intent.putExtra("profileId", selectedProfileId); // Change the key to lowercase
+        startActivity(intent);
+    }
+
+    private void navigateToProfileActivity() {
+        Intent intent = new Intent(this, ProfileActivity.class);
         startActivity(intent);
     }
 

@@ -130,9 +130,14 @@ public class MyDBHandler extends SQLiteOpenHelper {
 
 
 
-    public void deleteProfile(int profileId) {
-        SQLiteDatabase db = getWritableDatabase();
-        db.delete(TABLE_PROFILES, COLUMN_ID + "=?", new String[]{String.valueOf(profileId)});
-        db.close();
+    //Μέθοδος για διαγραφή προφιλ βάσει του ID του
+    public void deleteProduct(int ID) {
+        Profile profile = getProfileById(ID);
+        if (profile != null){
+            SQLiteDatabase db = this.getWritableDatabase();
+            db.delete(TABLE_PROFILES, COLUMN_ID + " = ?",
+                    new String[] { String.valueOf(profile.getId()) });
+            db.close();
+        }
     }
 }
