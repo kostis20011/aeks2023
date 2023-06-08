@@ -19,6 +19,7 @@ public class SelectProfileActivity extends AppCompatActivity {
     private Spinner profileSpinner;
     private Button selectProfileButton;
     private Button deleteProfileButton;
+    private Button profileButton;
     private int selectedProfileId = -1;
 
     @Override
@@ -29,6 +30,7 @@ public class SelectProfileActivity extends AppCompatActivity {
         profileSpinner = findViewById(R.id.profileSpinner);
         selectProfileButton = findViewById(R.id.selectProfileButton);
         deleteProfileButton = findViewById(R.id.deleteProfileButton);
+        profileButton= findViewById(R.id.profileButton);
 
         MyDBHandler dbHandler = new MyDBHandler(this);
         List<Profile> profiles = dbHandler.getProfiles();
@@ -60,6 +62,7 @@ public class SelectProfileActivity extends AppCompatActivity {
             }
         });
 
+        //selects a profile
         selectProfileButton.setOnClickListener(new View.OnClickListener() {
             @Override
             public void onClick(View v) {
@@ -72,6 +75,16 @@ public class SelectProfileActivity extends AppCompatActivity {
                 }
             }
         });
+
+        // Nav to the water intake calculation page
+        profileButton.setOnClickListener(new View.OnClickListener() {
+            @Override
+            public void onClick(View v) {
+                    navigateToProfileActivity();
+            }
+        });
+
+        //deletes the selected profile
         deleteProfileButton.setOnClickListener(new View.OnClickListener() {
             @Override
             public void onClick(View v) {
@@ -86,12 +99,14 @@ public class SelectProfileActivity extends AppCompatActivity {
         });
     }
 
+    //sends you to WaterIntakeCalculation
     private void navigateToWaterIntakeCalculation() {
         Intent intent = new Intent(this, WaterIntakeCalculationActivity.class);
         intent.putExtra("profileId", selectedProfileId); // Change the key to lowercase
         startActivity(intent);
     }
 
+    //sends you to ProfileActivity
     private void navigateToProfileActivity() {
         Intent intent = new Intent(this, ProfileActivity.class);
         startActivity(intent);

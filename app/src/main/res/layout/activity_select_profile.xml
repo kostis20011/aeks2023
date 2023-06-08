@@ -26,17 +26,25 @@
             android:id="@+id/deleteProfileButton"
             android:layout_width="wrap_content"
             android:layout_height="wrap_content"
-            android:backgroundTint="@color/light_blue"
             android:layout_marginRight="8dp"
+            android:backgroundTint="@color/light_blue"
             android:text="Delete Profile" />
 
         <Button
             android:id="@+id/selectProfileButton"
             android:layout_width="wrap_content"
             android:layout_height="wrap_content"
-            android:backgroundTint="@color/light_blue"
             android:layout_marginLeft="8dp"
+            android:backgroundTint="@color/light_blue"
             android:text="Select Profile" />
     </LinearLayout>
+
+    <Button
+        android:id="@+id/profileButton"
+        android:layout_width="wrap_content"
+        android:layout_height="wrap_content"
+        android:layout_marginTop="16dp"
+        android:backgroundTint="@color/light_blue"
+        android:text="Back" />
 
 </LinearLayout>
