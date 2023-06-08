@@ -76,7 +76,7 @@ public class SelectProfileActivity extends AppCompatActivity {
             }
         });
 
-        // Nav to the water intake calculation page
+        // Nav to the profileActivity page
         profileButton.setOnClickListener(new View.OnClickListener() {
             @Override
             public void onClick(View v) {
