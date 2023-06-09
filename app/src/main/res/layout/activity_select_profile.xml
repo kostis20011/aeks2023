@@ -28,7 +28,7 @@
             android:layout_height="wrap_content"
             android:textColor="@color/white"
             android:layout_marginRight="8dp"
-            android:backgroundTint="@color/light_blue"
+            android:backgroundTint="#FF0000"
             android:text="Delete Profile" />
 
         <Button
