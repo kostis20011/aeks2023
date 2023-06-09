@@ -3,6 +3,7 @@
 <LinearLayout xmlns:android="http://schemas.android.com/apk/res/android"
     xmlns:app="http://schemas.android.com/apk/res-auto"
     xmlns:tools="http://schemas.android.com/tools"
+    android:background="@android:color/white"
     android:layout_width="match_parent"
     android:layout_height="match_parent"
     android:gravity="center"
@@ -13,8 +14,7 @@
         android:id="@+id/profileSpinner"
         android:layout_width="wrap_content"
         android:layout_height="wrap_content"
-        android:padding="16dp"
-        android:background="@drawable/spinner_background" />
+        android:padding="16dp"/>
 
     <LinearLayout
         android:layout_width="411dp"
@@ -26,6 +26,7 @@
             android:id="@+id/deleteProfileButton"
             android:layout_width="wrap_content"
             android:layout_height="wrap_content"
+            android:textColor="@color/white"
             android:layout_marginRight="8dp"
             android:backgroundTint="@color/light_blue"
             android:text="Delete Profile" />
@@ -35,6 +36,7 @@
             android:layout_width="wrap_content"
             android:layout_height="wrap_content"
             android:layout_marginLeft="8dp"
+            android:textColor="@color/white"
             android:backgroundTint="@color/light_blue"
             android:text="Select Profile" />
     </LinearLayout>
@@ -43,6 +45,7 @@
         android:id="@+id/profileButton"
         android:layout_width="wrap_content"
         android:layout_height="wrap_content"
+        android:textColor="@color/white"
         android:layout_marginTop="16dp"
         android:backgroundTint="@color/light_blue"
         android:text="Back" />
