@@ -51,7 +51,7 @@ public class ProfileActivity extends AppCompatActivity {
             }
         });
     }
-
+    //OnClick method for createProfileButton
     private void createProfile() {
         String name = nameEditText.getText().toString().trim();
         String heightStr = heightEditText.getText().toString().trim();
@@ -74,12 +74,14 @@ public class ProfileActivity extends AppCompatActivity {
         int profileId = dbHandler.addProfile(profile);
 
         if (profileId != -1) {
+            // Redirect to the water intake calculation page with the profile ID
             redirectToWaterIntakeCalculation(profileId);
         } else {
             Toast.makeText(this, "Failed to save profile", Toast.LENGTH_SHORT).show();
         }
     }
 
+    //OnClick method for selectProfileButton
     private void selectProfile() {
         // Redirect to the select profile page
         Intent intent = new Intent(ProfileActivity.this, SelectProfileActivity.class);
@@ -95,6 +97,7 @@ public class ProfileActivity extends AppCompatActivity {
     }
 
     private String getSelectedGender() {
+        //Returns the selected gender as a string
         int selectedId = genderRadioGroup.getCheckedRadioButtonId();
         RadioButton selectedRadioButton = findViewById(selectedId);
         if (selectedRadioButton != null) {

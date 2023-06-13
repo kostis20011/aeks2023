@@ -10,6 +10,7 @@ import java.util.ArrayList;
 import java.util.List;
 
 public class MyDBHandler extends SQLiteOpenHelper {
+    //costants for the DB (DB name, version, tables etc)
     private static final int DATABASE_VERSION = 1;
     private static final String DATABASE_NAME = "watercheck.db";
     private static final String TABLE_PROFILES = "profiles";
@@ -22,6 +23,7 @@ public class MyDBHandler extends SQLiteOpenHelper {
 
     private static MyDBHandler instance;
 
+    //Constructor
     public MyDBHandler(Context context) //MyDBHandler constructor
     {
         super(context, DATABASE_NAME, null, DATABASE_VERSION);
@@ -34,6 +36,7 @@ public class MyDBHandler extends SQLiteOpenHelper {
         return instance;
     }
 
+    //here it creates the DB (table profile)
     @Override
     public void onCreate(SQLiteDatabase db) {
         String CREATE_PROFILES_TABLE = "CREATE TABLE " + TABLE_PROFILES +   //creating the table
@@ -47,13 +50,14 @@ public class MyDBHandler extends SQLiteOpenHelper {
                 ")";
         db.execSQL(CREATE_PROFILES_TABLE); //creates the table
     }
-
+    //Upgrade DB: here it deletes and recreates the same
     @Override
     public void onUpgrade(SQLiteDatabase db, int oldVersion, int newVersion) {
         db.execSQL("DROP TABLE IF EXISTS " + TABLE_PROFILES);
         onCreate(db); //create new "profiles" table with updated schema
     }
 
+    //creates profile in the DB
     public int addProfile(Profile profile) { //insert new profile in "profiles" table
         SQLiteDatabase db = getWritableDatabase();
         ContentValues values = new ContentValues(); //store column-value pairs
@@ -95,7 +99,7 @@ public class MyDBHandler extends SQLiteOpenHelper {
         return profileList;
     }
 
-
+    //finds profile by ID
     public Profile getProfileById(int profileId) {
         SQLiteDatabase db = getReadableDatabase();
         String[] columns = {COLUMN_ID, COLUMN_NAME, COLUMN_HEIGHT, COLUMN_WEIGHT, COLUMN_AGE, COLUMN_GENDER};
@@ -130,7 +134,7 @@ public class MyDBHandler extends SQLiteOpenHelper {
 
 
 
-    //Μέθοδος για διαγραφή προφιλ βάσει του ID του
+    //deletes profile by ID
     public void deleteProduct(int ID) {
         Profile profile = getProfileById(ID);
         if (profile != null){
